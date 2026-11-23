@@ -1,0 +1,27 @@
+CARDÁPIO DIGITAL
+index.html        estrutura (HTML)
+css/style.css     visual (CSS)
+js/config.js      DADOS EDITÁVEIS: CONFIG, ADICIONAIS, ITEMS, IMAGENS
+js/app.js         lógica (carrinho, checkout, WhatsApp, horário)
+images/           fotos dos produtos (JPG) - troque o arquivo mantendo o mesmo nome
+LOGO              em js/config.js preencha logo:"images/logo.png" (vazio = emoji)
+RODAPÉ            © ano + nome + "direitos" em js/config.js (automático)
+icons/            ícones do app
+manifest.json     configuração PWA
+sw.js             service worker (offline); mude V="cardapio-v2" ao publicar mudanças
+
+Abrir: dê dois cliques em index.html (funciona local). Para instalar como app,
+publique a pasta inteira em um site HTTPS (Netlify, Vercel, GitHub Pages...).
+Para enviar como arquivo único no WhatsApp, use o cardapio.html (imagens embutidas).
+
+
+PEDIDOS (Google Planilhas)
+apps-script/      Code.gs + INSTALAR.txt: liga o cardápio a uma planilha Google (contador único + registro dos pedidos)
+js/config.js      planilha.url = URL do Apps Script | areaLoja | impressao.largura (58mm, 80mm ou A4)
+Número do pedido: #001, #002... único para toda a loja e reinicia na hora de abertura (horario.abre).
+loja.html         ÁREA DA LOJA (com senha): lista os pedidos do dia direto da planilha, com botão Imprimir em cada um.
+                  (reserva: dá para colar um pedido do WhatsApp e imprimir)
+  Link no rodapé do cardápio ("Imprimir pedido · área da loja") ou acesse /loja.html direto.
+
+IMPRESSÃO AUTOMÁTICA
+Na loja.html marque "Imprimir novos pedidos automaticamente" (um computador só). Configuração: GUIA-IMPRESSAO-AUTOMATICA.txt

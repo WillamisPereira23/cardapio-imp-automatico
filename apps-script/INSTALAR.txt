@@ -1,0 +1,37 @@
+LIGAR O CARDÁPIO AO GOOGLE PLANILHAS (leva uns 5 minutos)
+
+1) Abra https://sheets.new e dê um nome à planilha (ex.: "Pedidos Mario Burgers").
+2) Menu Extensões > Apps Script.
+3) Apague o código que aparece e cole TODO o conteúdo de Code.gs.
+4) No topo do código troque o PIN "1234" pela senha que a loja vai usar.
+5) Clique no disquete (Salvar).
+6) Clique em "Implantar" > "Nova implantação" > engrenagem > "App da Web":
+      Executar como: Eu
+      Quem pode acessar: Qualquer pessoa
+   Clique em Implantar e autorize o acesso quando o Google pedir
+   (Avançado > Acessar projeto > Permitir).
+7) Copie a "URL do app da Web" (termina em /exec).
+8) Abra js/config.js e cole a URL em:   planilha: { url: "COLE_AQUI" }
+9) Publique de novo a pasta do cardápio no seu site.
+
+TESTE: abra a URL /exec no navegador: deve aparecer {"ok":true,"msg":"Cardápio online"}.
+Faça um pedido de teste no cardápio: uma linha nova aparece na aba "Pedidos".
+
+IMPORTANTE
+- O número do pedido reinicia em 1 na hora de abertura (horario.abre do config.js).
+- Se você mudar o Code.gs depois: Implantar > Gerenciar implantações > lápis > Versão: Nova versão > Implantar.
+- Confira o fuso: Apps Script > Configurações do projeto > Fuso horário = Brasília (GMT-03:00).
+- Para apagar os pedidos de teste, apague as linhas da planilha. Para zerar o contador na hora,
+  em Apps Script rode a função zerarContador (abaixo) uma vez.
+
+JÁ TINHA INSTALADO A VERSÃO ANTERIOR? (atualização)
+1) Apps Script: apague o código antigo, cole o novo Code.gs, troque o PIN e salve.
+2) Implantar > Gerenciar implantações > lápis > Versão: "Nova versão" > Implantar.
+   (A URL continua a mesma. Sem esse passo a lista de pedidos não funciona.)
+3) A planilha ganha sozinha as colunas "Dados do pedido" e "Impresso". Não apague a coluna M.
+4) Pedidos feitos antes da atualização aparecem na lista, mas com cupom mais simples (sem preço por item).
+
+LISTA DE PEDIDOS NA LOJA (loja.html)
+- Mostra os pedidos de "Hoje" (ou "Ontem"), atualiza sozinha a cada 15 segundos e toca um aviso quando chega pedido novo.
+- Botão Imprimir em cada pedido; depois de imprimir ele fica marcado como "Impresso" (coluna N da planilha).
+- O dia da loja vira na hora de abertura (horario.abre), igual ao número do pedido.

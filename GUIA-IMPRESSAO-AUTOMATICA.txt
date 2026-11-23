@@ -1,0 +1,36 @@
+IMPRESSÃO AUTOMÁTICA DOS PEDIDOS (computador do balcão)
+
+COMO FUNCIONA
+Na página da loja (loja.html) marque "Imprimir novos pedidos automaticamente".
+Cada pedido que chegar com a página aberta é impresso sozinho, em ordem, e marcado como "Impresso".
+Para o cupom sair SEM abrir a janela de impressão, o navegador precisa estar em modo de impressão silenciosa:
+
+PASSO A PASSO (Windows + Chrome)
+1) Deixe a impressora térmica como PADRÃO do Windows
+   (Configurações > Bluetooth e dispositivos > Impressoras e scanners > a térmica > "Definir como padrão").
+   Se aparecer "Permitir que o Windows gerencie minha impressora padrão", desligue.
+2) Nas Preferências de impressão da impressora, deixe o papel em 80mm (ou 58mm) e margens pequenas.
+3) Área de Trabalho > botão direito > Novo > Atalho. No local, cole (troque SEUSITE.com pelo seu endereço):
+
+   "C:\Program Files\Google\Chrome\Application\chrome.exe" --kiosk-printing --user-data-dir="C:\loja-chrome" --app=https://SEUSITE.com/loja.html
+
+   Nome: "Pedidos da loja". (Se o Chrome estiver em "Program Files (x86)", ajuste o caminho.)
+4) Abra SEMPRE por esse atalho. Entre com a senha da loja (fica salva por 30 dias).
+5) Marque "Imprimir novos pedidos automaticamente" e confirme.
+6) TESTE: faça um pedido de teste no cardápio. Em até 15 segundos o cupom deve sair sozinho.
+   Se aparecer a janela de impressão, o atalho não foi usado: feche todas as janelas do Chrome e abra pelo atalho.
+
+OUTROS NAVEGADORES
+- Edge: mesmo atalho, trocando o programa por "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe".
+- Mac (Terminal): open -na "Google Chrome" --args --kiosk-printing --user-data-dir=$HOME/loja-chrome --app=https://SEUSITE.com/loja.html
+- Firefox: digite about:config, procure print.always_print_silent e mude para true.
+
+REGRAS IMPORTANTES
+- Deixe a automática ligada em UM computador só. Se dois computadores a usarem, o mesmo pedido sai duas vezes.
+- A página precisa ficar ABERTA (pode ficar minimizada). Pedidos que chegarem com ela fechada NÃO saem sozinhos:
+  ao abrir, eles aparecem em destaque na lista para você imprimir com um toque.
+- Só imprime pedidos de "Hoje". A verificação acontece a cada 15 segundos (pode demorar até esse tempo).
+- A internet do balcão precisa estar ligada. Sem internet a página não vê pedidos novos.
+- Se faltar papel ou a impressora estiver desligada, o navegador não avisa e o pedido fica marcado como impresso.
+  Use "Reimprimir" no pedido. Vale conferir o papel antes de abrir a loja.
+- Mantenha o computador sem suspender (Configurações > Energia > Suspender: Nunca, na tomada).

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#120b08">
+    <title>Área da loja · Imprimir pedido</title>
+    <style>
+        :root {
+            --o: #ff6b1a;
+            --r: #e23413;
+            --g: #ffc24b;
+            --bg: #120b08;
+            --card: #1e130e;
+            --line: #33211a;
+            --tx: #fff3ea;
+            --mu: #b39a8c
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--tx);
+            font: 500 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+            padding: 16px
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: auto
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px
+        }
+
+        h1 {
+            font-size: 20px;
+            color: var(--g)
+        }
+
+        a,
+        button {
+            font: inherit;
+            color: inherit
+        }
+
+        .lnk {
+            color: var(--mu);
+            font-size: 13px;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            text-decoration: underline
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            margin: 10px 0 6px
+        }
+
+        textarea,
+        input,
+        select {
+            width: 100%;
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--tx);
+            border-radius: 12px;
+            padding: 12px;
+            font: inherit;
+            font-size: 16px
+        }
+
+        textarea {
+            min-height: 220px;
+            resize: vertical
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            align-items: center
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            background: var(--card);
+            border: 1px solid var(--line)
+        }
+
+        .btn.p {
+            flex: 1;
+            background: linear-gradient(90deg, var(--r), var(--o));
+            border: 0;
+            color: #fff
+        }
+
+        .cp {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--mu);
+            font-size: 14px
+        }
+
+        .cp select {
+            width: auto;
+            padding: 10px
+        }
+
+        h2 {
+            font-size: 14px;
+            color: var(--mu);
+            margin: 22px 0 8px;
+            font-weight: 700
+        }
+
+        .ok {
+            color: #4ade80;
+            font-weight: 700;
+            min-height: 22px;
+            margin-top: 8px
+        }
+
+        /* tela de senha */
+        #gate {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px
+        }
+
+        #gate.show {
+            display: flex
+        }
+
+        #gate .box {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 24px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center
+        }
+
+        #gate h1 {
+            margin-bottom: 4px
+        }
+
+        #gate p {
+            color: var(--mu);
+            font-size: 14px;
+            margin-bottom: 12px
+        }
+
+        #gate .err {
+            color: #ff7a66;
+            min-height: 20px;
+            margin-top: 8px;
+            font-size: 14px
+        }
+
+        /* cupom (pré-visualização = o que sai impresso) */
+        .cup {
+            background: #fff;
+            color: #000;
+            font: 600 13px/1.35 "Courier New", monospace;
+            padding: 10px 8px;
+            border-radius: 6px;
+            margin: auto;
+            overflow-wrap: anywhere
+        }
+
+        .cup hr {
+            border: 0;
+            border-top: 1px dashed #000;
+            margin: 7px 0
+        }
+
+        .tk-c {
+            text-align: center
+        }
+
+        .tk-nome {
+            font-size: 18px;
+            font-weight: 800
+        }
+
+        .tk-n {
+            font-size: 28px;
+            font-weight: 800;
+            text-align: center;
+            margin: 6px 0
+        }
+
+        .tk-tipo {
+            font-weight: 800;
+            font-size: 16px;
+            border: 2px solid #000;
+            padding: 3px;
+            margin: 6px 0
+        }
+
+        .tk-end {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 4px 0
+        }
+
+        .tk-b {
+            font-weight: 800
+        }
+
+        .tk-i,
+        .tk-l {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px
+        }
+
+        .tk-i {
+            font-weight: 800;
+            margin-top: 3px
+        }
+
+        .tk-s {
+            padding-left: 10px;
+            font-size: 12px
+        }
+
+        .tk-o {
+            padding-left: 10px;
+            font-weight: 800
+        }
+
+        .tk-t {
+            font-size: 19px;
+            font-weight: 800
+        }
+
+        .pb {
+            break-after: page;
+            page-break-after: always
+        }
+
+        .vazio {
+            color: #777;
+            text-align: center;
+            padding: 20px 0;
+            font-family: system-ui
+        }
+
+        #pr {
+            display: none
+        }
+
+        /* lista de pedidos */
+        .bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin: 4px 0 10px
+        }
+
+        .bar select {
+            width: auto;
+            padding: 9px
+        }
+
+        .bar .btn {
+            padding: 10px 14px;
+            font-size: 14px
+        }
+
+        .bar label {
+            margin: 0;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--mu);
+            display: flex;
+            gap: 6px;
+            align-items: center
+        }
+
+        .bar label input {
+            width: 18px;
+            height: 18px;
+            padding: 0
+        }
+
+        .ped {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-left: 5px solid var(--o);
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 10px
+        }
+
+        .ped.feito {
+            border-left-color: #2f6b45;
+            opacity: .7
+        }
+
+        .ped .n {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--g);
+            min-width: 62px
+        }
+
+        .ped .m {
+            flex: 1;
+            min-width: 0
+        }
+
+        .ped .m b {
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .ped .m small {
+            color: var(--mu);
+            display: block
+        }
+
+        .ped .btn {
+            padding: 12px 14px;
+            font-size: 15px
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 99px;
+            padding: 2px 8px;
+            background: #3a1410;
+            color: #ff9a85
+        }
+
+        .tag.e {
+            background: #12361f;
+            color: #4ade80
+        }
+
+        .vz {
+            color: var(--mu);
+            text-align: center;
+            padding: 22px 0
+        }
+
+        details {
+            margin-top: 20px;
+            border-top: 1px solid var(--line);
+            padding-top: 6px
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--mu);
+            padding: 10px 0
+        }
+
+        @media print {
+
+            body>*:not(#pr) {
+                display: none !important
+            }
+
+            body {
+                background: #fff;
+                padding: 0
+            }
+
+            #pr {
+                display: block !important
+            }
+
+            #pr .cup {
+                width: 100% !important;
+                max-width: none !important;
+                padding: 0;
+                border-radius: 0
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="gate">
+        <div class="box">
+            <h1>🔒 Área da loja</h1>
+            <p>Digite a senha para continuar</p>
+            <input type="password" id="pin" inputmode="numeric" autocomplete="current-password" placeholder="Senha">
+            <button class="btn p" style="width:100%;margin-top:12px" id="go">Entrar</button>
+            <div class="err" id="gerr"></div>
+        </div>
+    </div>
+
+    <div class="wrap" id="app" style="display:none">
+        <header>
+            <h1>🖨️ Pedidos da loja</h1>
+            <span><a class="lnk" href="index.html">Cardápio</a> · <button class="lnk" id="sair">Sair</button></span>
+        </header>
+
+        <div class="bar">
+            <select id="dia">
+                <option value="0">Hoje</option>
+                <option value="1">Ontem</option>
+            </select>
+            <button class="btn" id="atualizar">🔄 Atualizar</button>
+            <label><input type="checkbox" id="som" checked> 🔔 Avisar novo pedido</label>
+            <label><input type="checkbox" id="auto"> 🖨️ Imprimir novos pedidos automaticamente</label>
+            <label>Vias
+                <select id="vias">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                </select></label>
+        </div>
+        <div class="ok" id="msg"></div>
+        <div id="lista"><div class="vz">Carregando…</div></div>
+
+        <details>
+            <summary>📋 Colar pedido do WhatsApp (reserva)</summary>
+            <textarea id="txt" placeholder="Copie a mensagem do pedido no WhatsApp e cole aqui…"></textarea>
+            <div class="row">
+                <button class="btn" id="colar">📋 Colar</button>
+                <button class="btn" id="limpar">🗑️ Limpar</button>
+                <button class="btn p" id="imp">🖨️ Imprimir</button>
+            </div>
+            <h2>PRÉ-VISUALIZAÇÃO</h2>
+            <div id="pv" class="cup"></div>
+        </details>
+    </div>
+    <div id="pr"></div>
+
+    <script src="js/config.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        const H = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+        const R = v => "R$ " + Number(v || 0).toFixed(2).replace(".", ",");
+        const fn = n => "#" + String(n).padStart(3, "0");
+        const URL_API = (CONFIG.planilha && CONFIG.planilha.url) || "";
+        const LARG = (CONFIG.impressao && CONFIG.impressao.largura) || "80mm";
+        const MM = /mm$/.test(LARG);
+        const ABRE = CONFIG.horario.abre;
+
+        /* tamanho do papel */
+        (() => {
+            const s = document.createElement("style");
+            s.textContent = (MM ? `@page{size:${LARG} auto;margin:3mm}` : `@page{size:${LARG};margin:12mm}.cup{font-size:16px!important}`) +
+                `#pv{max-width:${MM ? LARG : "210mm"};${MM ? "width:" + LARG : ""}}`;
+            document.head.appendChild(s);
+        })();
+
+        const api = b => fetch(URL_API, { method: "POST", body: JSON.stringify(b) }).then(r => r.json());
+
+        /* ===== acesso por senha (conferida no Google Apps Script) ===== */
+        const KEY = "lojaTk", VALID = 30 * 864e5; /* mantém conectado 30 dias neste aparelho */
+        let TOKEN = null, PED = [], vistos = null, timer = null;
+        function sessao() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.t && Date.now() - s.ts < VALID) return s.t } catch (e) { } return null }
+        function abrir() {
+            $("gate").classList.remove("show"); $("app").style.display = ""; renderPv(); carregar();
+            clearInterval(timer); timer = setInterval(() => { if ((document.visibilityState === "visible" || $("auto").checked) && TOKEN) carregar(true) }, 15000);
+        }
+        function pedirSenha() { clearInterval(timer); TOKEN = null; $("app").style.display = "none"; $("gate").classList.add("show"); setTimeout(() => $("pin").focus(), 50) }
+        async function entrar() {
+            const e = $("gerr");
+            if (!URL_API) { e.textContent = "Configure a URL da planilha em js/config.js (veja apps-script/INSTALAR.txt)."; return }
+            e.textContent = "Conferindo…"; $("go").disabled = true;
+            try {
+                const r = await api({ action: "auth", pin: $("pin").value });
+                if (r.ok && r.token) { TOKEN = r.token; try { localStorage.setItem(KEY, JSON.stringify({ t: TOKEN, ts: Date.now() })) } catch (x) { } e.textContent = ""; abrir() }
+                else if (r.ok) e.textContent = "Atualize o Code.gs no Google (veja INSTALAR.txt) — falta a versão nova.";
+                else e.textContent = r.bloqueado ? "Muitas tentativas. Aguarde 10 minutos." : "Senha incorreta.";
+            } catch (x) { e.textContent = "Sem conexão. Tente novamente." }
+            $("go").disabled = false; $("pin").value = "";
+        }
+        $("go").onclick = entrar;
+        $("pin").onkeydown = e => { if (e.key === "Enter") entrar() };
+        $("sair").onclick = () => { try { localStorage.removeItem(KEY) } catch (e) { } pedirSenha() };
+
+        /* ===== lista de pedidos do dia ===== */
+        function beep() { try { const a = new (window.AudioContext || window.webkitAudioContext)(), o = a.createOscillator(), g = a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.value = 880; g.gain.value = .15; o.start(); setTimeout(() => { o.stop(); a.close() }, 400) } catch (e) { } }
+        let carregando = false;
+        async function carregar(auto) {
+            if (carregando) return;
+            carregando = true;
+            if (!auto) $("msg").textContent = "";
+            try {
+                const r = await api({ action: "listar", token: TOKEN, abre: ABRE, ontem: $("dia").value === "1" });
+                if (!r.ok) { if (r.erro === "auth") { try { localStorage.removeItem(KEY) } catch (e) { } pedirSenha(); return } throw 0 }
+                PED = r.pedidos;
+                const novos = vistos ? PED.filter(p => !vistos.has(p.n)) : [];
+                if (novos.length && $("som").checked) beep();
+                vistos = new Set(PED.map(p => p.n));
+                desenha();
+                /* impressão automática: só pedidos que chegaram com a página aberta, do dia de hoje e ainda não impressos */
+                if ($("auto").checked && $("dia").value === "0") {
+                    novos.filter(p => !p.impresso).sort((x, y) => x.n - y.n).forEach(p => fila.push(p));
+                    rodaFila();
+                }
+            } catch (e) { if (!auto) $("msg").textContent = "⚠️ Não foi possível carregar. Verifique a internet." }
+            finally { carregando = false }
+        }
+        function desenha() {
+            const pend = PED.filter(p => !p.impresso).length;
+            document.title = (pend ? "(" + pend + ") " : "") + "Pedidos da loja";
+            $("lista").innerHTML = PED.length ? PED.map(p => `<div class="ped ${p.impresso ? "feito" : ""}">
+<div class="n">${fn(p.n)}</div>
+<div class="m"><b>${H(p.nome)}</b><small>${H(p.hora)} · <span class="tag ${p.tipo === "Entrega" ? "" : "e"}">${H(p.tipo)}</span> · ${R(p.total)} · ${H(p.pag)}</small>${p.impresso ? `<small>✔ Impresso ${H(p.impresso.replace("Sim ", ""))}</small>` : ""}</div>
+<button class="btn ${p.impresso ? "" : "p"}" data-n="${p.n}">🖨️ ${p.impresso ? "Reimprimir" : "Imprimir"}</button></div>`).join("") : `<div class="vz">Nenhum pedido neste dia.</div>`;
+        }
+        $("lista").onclick = e => { const b = e.target.closest("[data-n]"); if (b) imprimirPed(Number(b.dataset.n)) };
+        $("atualizar").onclick = () => carregar();
+        $("dia").onchange = () => { vistos = null; carregar() };
+
+        /* ===== cupom a partir dos dados da planilha ===== */
+        function cupomPed(p) {
+            const d = p.dados, ent = p.tipo === "Entrega";
+            let h = `<div class="tk-c tk-nome">${H(CONFIG.nome)}</div><div class="tk-n">PEDIDO ${fn(p.n)}</div><div class="tk-c">${H(p.data)} ${H(p.hora)}</div>
+<div class="tk-c tk-tipo">${ent ? "ENTREGA" : "RETIRADA NO LOCAL"}</div>
+<div><b>Cliente:</b> ${H(p.nome)}</div><div><b>Tel:</b> ${H(p.tel)}</div>`;
+            if (ent) h += `<div class="tk-end">ENDEREÇO:<br>${d ? H(d.end) + "<br>" + H(d.bai) + (d.comp ? "<br>Ref.: " + H(d.comp) : "") : H(p.endereco)}</div>`;
+            h += `<hr><div class="tk-b">ITENS</div>`;
+            if (d) {
+                h += d.itens.map(i => `<div class="tk-i"><span>${i.q}x ${H(i.n)}</span><span>${R(i.p)}</span></div>${i.ci && i.ci.length ? `<div class="tk-s">${i.ci.map(H).join(" + ")}</div>` : ""}${i.ex && i.ex.length ? `<div class="tk-s">+ ${i.ex.map(H).join(", ")}</div>` : ""}${i.ob ? `<div class="tk-o">OBS: ${H(i.ob)}</div>` : ""}`).join("");
+                h += `<hr><div class="tk-l"><span>Subtotal</span><span>${R(d.sub)}</span></div><div class="tk-l"><span>Entrega</span><span>${ent ? R(d.taxa) : "Retirada"}</span></div>`;
+            } else {
+                h += p.itens.split(" | ").map(x => `<div class="tk-i"><span>${H(x)}</span></div>`).join("") + "<hr>";
+            }
+            h += `<div class="tk-l tk-t"><span>TOTAL</span><span>${R(p.total)}</span></div><hr>
+<div><b>Pagamento: ${H(p.pag)}${p.pag === "Dinheiro" && p.troco ? " · troco p/ " + H(p.troco) : ""}</b></div>${d && d.prev ? `<div>Previsão: ${H(d.prev)}</div>` : ""}`;
+            return h;
+        }
+        function imprimirHtml(h) {
+            const v = Number($("vias").value) || 1;
+            $("pr").innerHTML = Array.from({ length: v }, (_, i) => `<div class="cup ${i < v - 1 ? "pb" : ""}">${h}</div>`).join("");
+            window.print();
+        }
+        async function imprimeUm(p, ontem) {
+            imprimirHtml(cupomPed(p));
+            p.impresso = "Sim " + new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); desenha();
+            try { await api({ action: "marcar", token: TOKEN, abre: ABRE, ontem: ontem, n: p.n }) } catch (e) { }
+        }
+        function imprimirPed(n) {
+            const p = PED.find(x => x.n === n); if (!p) return;
+            const ontem = $("dia").value === "1";
+            setTimeout(() => imprimeUm(p, ontem), 100);
+        }
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+        let fila = [], rodando = false;
+        async function rodaFila() {
+            if (rodando) return;
+            rodando = true;
+            try {
+                while (fila.length) {
+                    const p = fila.shift();
+                    await imprimeUm(p, false);
+                    $("msg").textContent = "🖨️ Pedido " + fn(p.n) + " impresso automaticamente";
+                    await sleep(1500); /* intervalo entre cupons */
+                }
+            } finally { rodando = false }
+        }
+        /* liga/desliga a impressão automática (lembrado neste aparelho) */
+        try { $("auto").checked = localStorage.getItem("lojaAuto") === "1" } catch (e) { }
+        $("auto").onchange = () => {
+            if ($("auto").checked && !confirm("Cada pedido novo será impresso sozinho nesta tela.\n\nUse em UM computador só (o do balcão), com a impressão silenciosa configurada (veja GUIA-IMPRESSAO-AUTOMATICA.txt).\n\nAtivar?")) $("auto").checked = false;
+            try { localStorage.setItem("lojaAuto", $("auto").checked ? "1" : "0") } catch (e) { }
+            $("msg").textContent = $("auto").checked ? "🖨️ Impressão automática LIGADA. Mantenha esta tela aberta." : "Impressão automática desligada.";
+        };
+
+        /* ===== reserva: colar pedido do WhatsApp ===== */
+        const limpa = s => s.replace(/[*_~]/g, "").replace(/[\u{1F000}-\u{1FFFF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u200d\u21B3]/gu, "").replace(/\s+/g, " ").trim();
+        function cupom(txt) {
+            const linhas = txt.replace(/\r/g, "").split("\n").map(l =>
+                l.replace(/^\[\d{1,2}:\d{2}(?:, \d{1,2}\/\d{1,2}\/\d{2,4})?\]\s*[^:]{0,60}:\s?/, "")
+                    .replace(/^\d{1,2}\/\d{1,2}\/\d{2,4},? \d{1,2}:\d{2}\s*-\s*[^:]{0,60}:\s?/, ""));
+            const agora = new Date(), dt = agora.toLocaleDateString("pt-BR") + " " + agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+            let h = "", prim = true, entrega = false, hrSub = false, m;
+            for (const ln of linhas) {
+                const c = limpa(ln); if (!c) continue;
+                if ((m = c.match(/PEDIDO\s*(#\S+)/i))) { h += `<div class="tk-n">PEDIDO ${H(m[1])}</div><div class="tk-c">${dt}</div>`; prim = false; continue }
+                if (prim) { h += `<div class="tk-c tk-nome">${H(c)}</div>`; prim = false; continue }
+                if (ln.includes("👤")) { h += `<div><b>Cliente:</b> ${H(c)}</div>`; continue }
+                if (ln.includes("📞")) { h += `<div><b>Tel:</b> ${H(c)}</div>`; continue }
+                if (ln.includes("🛵")) { entrega = true; h += `<div class="tk-c tk-tipo">ENTREGA</div>`; continue }
+                if (ln.includes("🏪")) { entrega = false; h += `<div class="tk-c tk-tipo">RETIRADA NO LOCAL</div>`; continue }
+                if (ln.includes("📍")) { h += entrega ? `<div class="tk-end">ENDEREÇO:<br>${H(c)}</div>` : `<div>Local: ${H(c)}</div>`; continue }
+                if (/^ITENS$/i.test(c)) { h += `<hr><div class="tk-b">ITENS</div>`; continue }
+                if ((m = c.match(/^(\d+)\s*x\s+(.+?)\s+[—–-]\s+(R\$\s*[\d.,]+)$/i))) { h += `<div class="tk-i"><span>${m[1]}x ${H(m[2])}</span><span>${H(m[3])}</span></div>`; continue }
+                if (ln.includes("↳")) { h += `<div class="tk-s">${H(c)}</div>`; continue }
+                if (ln.includes("➕")) { h += `<div class="tk-s">+ ${H(c)}</div>`; continue }
+                if (ln.includes("📝")) { h += `<div class="tk-o">OBS: ${H(c)}</div>`; continue }
+                if ((m = c.match(/^(Subtotal|Entrega)\s*:\s*(.+)$/i))) { if (!hrSub) { h += "<hr>"; hrSub = true } h += `<div class="tk-l"><span>${m[1]}</span><span>${H(m[2])}</span></div>`; continue }
+                if ((m = c.match(/^TOTAL\s*:\s*(.+)$/i))) { h += `<div class="tk-l tk-t"><span>TOTAL</span><span>${H(m[1])}</span></div>`; continue }
+                if (ln.includes("💳")) { h += `<hr><div><b>${H(c.replace(/\s*\(chave[^)]*\)/i, ""))}</b></div>`; continue }
+                h += `<div>${H(c)}</div>`
+            }
+            return h
+        }
+        function renderPv() { const t = $("txt").value.trim(); $("pv").innerHTML = t ? cupom(t) : `<div class="vazio">Cole o pedido acima para ver o cupom</div>` }
+        $("txt").oninput = renderPv;
+        $("imp").onclick = () => { if (!$("txt").value.trim()) { $("msg").textContent = "Cole o pedido primeiro."; return } $("msg").textContent = ""; imprimirHtml(cupom($("txt").value.trim())) };
+        $("limpar").onclick = () => { $("txt").value = ""; renderPv(); $("txt").focus() };
+        $("colar").onclick = async () => {
+            try { $("txt").value = await navigator.clipboard.readText(); renderPv() }
+            catch (e) { $("msg").textContent = "Não foi possível colar sozinho. Toque no campo e cole (Ctrl+V)." }
+        };
+
+        TOKEN = sessao(); TOKEN ? abrir() : pedirSenha();
+    </script>
+</body>
+
+</html>
